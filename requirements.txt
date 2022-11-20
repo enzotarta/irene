@@ -1,0 +1,7 @@
+torchvision
+numpy==1.20.2
+gdown==3.13.0
+pandas==1.2.4
+tqdm==4.56.0
+torch
+Pillow==9.3.0
