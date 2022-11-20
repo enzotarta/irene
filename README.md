@@ -5,9 +5,9 @@
 ![teaser](assets/IRENE_prop.png)
 
 The official repository. To reproduce the experiments in the paper launch
-``
+```
  python3 train.py
-``
+```
 
 ### To use IRENE for other datasets
 
@@ -39,7 +39,7 @@ PH_optimizer = torch.optim.SGD(PH.parameters(), lr=args.lr_priv, momentum=args.m
 
 * During the training loop, besides the usual learning for the task head (and backbone), include the lines of coode to calculate and back-propagate the loss for the privacy head and the mitual information to minimize
 
-``
+```python
 output= model(data)
 
 output_private = PH()
@@ -57,4 +57,4 @@ total_loss.backward()
 optimizer.step()
 
 PH_optimizer.step()
-``
+```
