@@ -5,9 +5,9 @@
 ![teaser](assets/IRENE_prop.png)
 
 The official repository. To reproduce the experiments in the paper launch
-'''
+``
  python3 train.py
-'''
+``
 
 ### To use IRENE for other datasets
 
