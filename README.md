@@ -21,9 +21,9 @@ model.avgpool = nn.Sequential(model.avgpool, torch.nn.Identity().to(args.device)
 
 * Instantiate the privacy head. This has as input size the output size of the bottleneck and as output the number of private classes
 
-``python
+```python
 PH = Privacy_head(model.avgpool, nn.Sequential(torch.nn.Linear(512, 2))).to(args.device)
-``
+```
 
 * Define the mutual information object, indicating how many private classes you have
 
