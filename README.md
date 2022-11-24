@@ -1,10 +1,21 @@
 # Information Removal at the bottleneck in Deep Neural Networks
 
+[![paper](https://img.shields.io/badge/BMVC-paper-blue)](https://bmvc2022.mpi-inf.mpg.de/488/)
 [![arXiv](https://img.shields.io/badge/arXiv-2210.00891-b31b1b.svg)](https://arxiv.org/abs/2210.00891)
+
+The official repository. Please cite as
+```
+@inproceedings{Tartaglione_2022_BMVC,
+author    = {Enzo Tartaglione},
+title     = {Information Removal at the bottleneck in Deep Neural Networks},
+booktitle = {33rd British Machine Vision Conference 2022, {BMVC} 2022, London, UK, November 21-24, 2022},
+year      = {2022}
+}
+```
 
 ![teaser](assets/IRENE_prop.png)
 
-The official repository. To reproduce the experiments in the paper launch
+To reproduce the experiments in the paper launch
 ```bash
  python3 train.py
 ```
