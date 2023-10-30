@@ -21,7 +21,7 @@ def train(model, args, train_loader):
     top1 = AverageMeter('Acc@1', ':6.2f')
     private_top1 = AverageMeter('Acc@1', ':6.2f')
     tk0 = tqdm(train_loader, total=int(len(train_loader)), leave=True)
-    for batch_idx, (data, target, private_label) in enumerate(tk0):
+    for _, (data, target, private_label) in enumerate(tk0):
         data = data.to(args.device)
         target = target.to(args.device)
         private_label = private_label.to(args.device)
@@ -33,13 +33,17 @@ def train(model, args, train_loader):
         loss_task_tot.update(loss_task.item(), data.size(0))
         loss_private_tot.update(loss_private.item(), data.size(0))
         MI_tot.update(MI.item(), data.size(0))
-        loss = args.alpha * loss_task + loss_private + args.gamma * MI
+        
+        loss = args.alpha * loss_task + args.gamma * MI
         loss.backward()
-        if ((batch_idx + 1) % args.batch_size_accumulation) == 0:
-            args.optimizer.step()
-            args.optimizer.zero_grad()
-            args.PH_optimizer.step()
-            args.PH_optimizer.zero_grad()
+        
+        args.PH_optimizer.zero_grad()
+        loss_private.backward()
+        
+        args.optimizer.step()
+        args.optimizer.zero_grad()
+        args.PH_optimizer.step()
+        args.PH_optimizer.zero_grad()
         acc1 = accuracy(output, target, topk=(1,))
         acc1_private = accuracy(output_private, private_label, topk=(1,))
         top1.update(acc1[0], data.size(0))
@@ -53,7 +57,7 @@ def test(model, args, val_loader):
     top1 = AverageMeter('Acc@1', ':6.2f')
     private_top1 = AverageMeter('Acc@1', ':6.2f')
     tk0 = tqdm(val_loader, total=int(len(val_loader)), leave=True)
-    for batch_idx, (data, target, private_label) in enumerate(tk0):
+    for _, (data, target, private_label) in enumerate(tk0):
         data = data.to(args.device)
         target = target.to(args.device)
         private_label = private_label.to(args.device)
@@ -74,8 +78,6 @@ def main():
     parser = argparse.ArgumentParser(description='Information Removal at the bottleneck in Deep Neural Networks')
     parser.add_argument('--batch-size', type=int, default=100, metavar='N',
                         help='input batch size for training (default: 100)')
-    parser.add_argument('--batch-size-accumulation', type=int, default=1, metavar='N',
-                        help='batchsize accumulation (default: 1)')
     parser.add_argument('--test-batch-size', type=int, default=100, metavar='N',
                         help='input batch size for testing (default: 100)')
     parser.add_argument('--epochs', type=int, default=100, metavar='N',
